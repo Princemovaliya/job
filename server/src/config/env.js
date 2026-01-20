@@ -6,6 +6,7 @@ const env = {
   JWT_SECRET: process.env.JWT_SECRET || "",
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || "8h",
   ADMIN_API_KEY: process.env.ADMIN_API_KEY || "",
+  FRONTEND_ORIGIN: process.env.FRONTEND_ORIGIN || "",
   QUEUE_CONCURRENCY: Number(process.env.QUEUE_CONCURRENCY || 5),
   BATCH_SIZE: Number(process.env.BATCH_SIZE || 500),
   CRON_SCHEDULE: process.env.CRON_SCHEDULE || "0 * * * *",

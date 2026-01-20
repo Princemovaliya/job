@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { Worker } = require("bullmq");
+const { QueueScheduler, Worker } = require("bullmq");
 const { queueName } = require("./job.queue");
 const { connection, connectRedis } = require("../config/redis");
 const { connectDB } = require("../config/db");
@@ -10,6 +10,9 @@ const { processImport } = require("../services/jobProcessor.service");
 const startWorker = async () => {
   await connectDB();
   await connectRedis();
+
+  const scheduler = new QueueScheduler(queueName, { connection });
+  await scheduler.waitUntilReady();
 
   const worker = new Worker(
     queueName,
@@ -30,7 +33,7 @@ const startWorker = async () => {
     console.error(`Import failed: ${job?.id}`, error);
   });
 
-  return worker;
+  return { worker, scheduler };
 };
 
 if (require.main === module) {
